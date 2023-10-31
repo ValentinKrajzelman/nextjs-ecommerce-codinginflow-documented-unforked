@@ -13,15 +13,18 @@ interface ProductPageProps {
   };
 }
 
+//esta es la funcion para hacer cacheo manual, que tenemos que usar por tener el proyecto setupeado con prisma
 const getProduct = cache(async (id: string) => {
   const product = await prisma.product.findUnique({ where: { id } });
   if (!product) notFound();
   return product;
 });
 
-export async function generateMetadata({
-  params: { id },
-}: ProductPageProps): Promise<Metadata> {
+//todas las funciones async devuelven una promesa, se hace el llamado a base por duplicado y next automaticamente
+//lo hace una sola vez y lo duplica, pero esto es asi solo cuando usamos el fetch nativo de next, en este caso
+//que usamos prisma o si usas axios, tenes que hacer un cacheo manual del dato para no hacer dos llamados paralelos
+//que serian un desperdicio de recursos
+export async function generateMetadata({params: { id },}: ProductPageProps): Promise<Metadata> {
   const product = await getProduct(id);
 
   return {
@@ -33,9 +36,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductPage({
-  params: { id },
-}: ProductPageProps) {
+export default async function ProductPage({params: { id },}: ProductPageProps) {
   const product = await getProduct(id);
 
   return (
