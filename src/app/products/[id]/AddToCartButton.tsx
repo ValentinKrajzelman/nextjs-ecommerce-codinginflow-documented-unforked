@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 
+//en estas props vemos como se define una funcion en interface
 interface AddToCartButtonProps {
   productId: string;
   incrementProductQuantity: (productId: string) => Promise<void>;
@@ -11,6 +12,7 @@ export default function AddToCartButton({
   productId,
   incrementProductQuantity,
 }: AddToCartButtonProps) {
+  //useStransition sirve para agregar reactividad a la pagina, escucha una funcion
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
 

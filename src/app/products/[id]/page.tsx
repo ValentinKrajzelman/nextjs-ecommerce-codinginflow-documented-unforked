@@ -1,3 +1,4 @@
+//cualquier componente que haga fetch es un server component, este es un server component
 import PriceTag from "@/components/PriceTag";
 import { prisma } from "@/lib/db/prisma";
 import { Metadata } from "next";
@@ -14,7 +15,8 @@ interface ProductPageProps {
   };
 }
 
-//esta es la funcion para hacer cacheo manual, que tenemos que usar por tener el proyecto setupeado con prisma
+//esta es la funcion para hacer cacheo manual, que tenemos que usar por tener el proyecto setupeado con prisma, 
+//se define una funcion que guarda el valor una vez resuelto 
 const getProduct = cache(async (id: string) => {
   const product = await prisma.product.findUnique({ where: { id } });
   if (!product) notFound();
