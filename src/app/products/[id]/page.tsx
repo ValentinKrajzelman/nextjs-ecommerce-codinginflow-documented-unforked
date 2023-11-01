@@ -7,6 +7,7 @@ import { cache } from "react";
 import AddToCartButton from "./AddToCartButton";
 import { incrementProductQuantity } from "./actions";
 
+//esta es la definicion de params donde se especifica el valor dinamico que se recibe
 interface ProductPageProps {
   params: {
     id: string;
@@ -24,6 +25,7 @@ const getProduct = cache(async (id: string) => {
 //lo hace una sola vez y lo duplica, pero esto es asi solo cuando usamos el fetch nativo de next, en este caso
 //que usamos prisma o si usas axios, tenes que hacer un cacheo manual del dato para no hacer dos llamados paralelos
 //que serian un desperdicio de recursos
+//generateMetadata es una funcion default que next automaticamente reconoce, asi que el nombre tiene que ser exactamente ese
 export async function generateMetadata({params: { id },}: ProductPageProps): Promise<Metadata> {
   const product = await getProduct(id);
 
